@@ -21,6 +21,9 @@ c.lineTo(700,550);
 c.strokeStyle = 'white';
 c.stroke();
 
+
+var z=0;
+ 
 function Circle(x,y,dx,dy,r) {
 	this.x = x;
 	this.y = y;
@@ -48,6 +51,7 @@ function Circle(x,y,dx,dy,r) {
 		else
 		{
 			this.y=90;
+			z++;
 		}
 	}
 }
@@ -67,6 +71,7 @@ function stop()
 	{
 		a[j].dy=0;
 	}
+	window.alert('Your score is '+z+'\nGame has ended.To restart game reload page');
 }
 
 function checkdist(a,b)
@@ -97,6 +102,28 @@ function Car(x,y,w,h,dx){
 
 var a= [];
 var d = new Car(580,500,40,40,3);
+var addEvent = document.addEventListener ? function(target,type,action){
+    if(target){
+        target.addEventListener(type,action,false);
+    }
+} : function(target,type,action){
+    if(target){
+        target.attachEvent('on' + type,action,false);
+    }
+}
+
+addEvent(document,'keydown',function(e){
+    e = e || window.event;
+    var key = e.which || e.keyCode;
+    if(key===37){
+        goleft();
+    }
+    if(key===39){
+        goright();
+    }
+});
+
+
 
 
 for(let i=0;i<3;i++)
