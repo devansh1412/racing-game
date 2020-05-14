@@ -2,21 +2,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Canvas Resize</title>
+<title>HARDEST GAME EVER!</title>
 <style type="text/css">
 canvas {
 border:10% solid black; 
-background: yellow;
+background: #C0C0C0;
 }
 body{
 margin : 0;
+background: #FAD0C9FF;
 }
-.button{
-position: fixed;
+button{
+position: relative;
 text-align: center;
-margin-left: 40%;
-margin-top: 43%;
+margin-left: 25%;
  
+}
+h3{
+color: black;
+
 }
 canvas{
 height: 80%;
@@ -25,7 +29,12 @@ width: 80%;
 </style>
 </head>
 <body>
-<h1>Press the arrow keys to move the car left or right</h1>
+<h3>Swipe left or right to move car.(On computer use arrow keys to move car.)</h3>
+<h3>
+<button onclick=window.location.reload()>Play again</button>
+<button onclick=start()>Start Game</button>
+</h3>
+<h3 id="demo"></h3>
 <canvas>
  </canvas>
 <script src="canvas.js"></script>

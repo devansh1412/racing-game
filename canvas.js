@@ -1,8 +1,13 @@
 var canvas = document.querySelector('canvas');
+var highscore=0;
 console.log(canvas); 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
+ 
+var z=0;
+var Score = "Score = "+z+ "<br>";
+document.getElementById("demo").innerHTML = Score;
 
 //creating animations
 
@@ -22,14 +27,14 @@ c.strokeStyle = 'white';
 c.stroke();
 
 
-var z=0;
  
-function Circle(x,y,dx,dy,r) {
+function Circle(x,y,dx,dy,r,a) {
 	this.x = x;
 	this.y = y;
 	this.dx = dx,
 	this.dy = dy,
 	this.r=r,
+	this.a=a,
 	this.draw =function() {
 		c.beginPath();
 		c.arc(this.x,this.y,this.r,0,Math.PI * 2,true);
@@ -43,6 +48,7 @@ function Circle(x,y,dx,dy,r) {
 		c.fill();
 	}
 	this.update = function() {
+		this.dy+=this.a;
 		if(this.y<510)
 		{
 			this.draw();
@@ -53,6 +59,8 @@ function Circle(x,y,dx,dy,r) {
 			this.y=90;
 			z++;
 		}
+		Score = "Score = "+z+ "<br> ";
+		document.getElementById("demo").innerHTML = Score;
 	}
 }
 
@@ -70,8 +78,9 @@ function stop()
 	for(var j=0;j<a.length;j++)
 	{
 		a[j].dy=0;
+		a[j].a=0;
 	}
-	window.alert('Your score is '+z+'\nGame has ended.To restart game reload page');
+	
 }
 
 function checkdist(a,b)
@@ -124,14 +133,66 @@ addEvent(document,'keydown',function(e){
 });
 
 
+//mobile touch start
+document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;                                                        
+var yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}                                                     
+
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];                                      
+    xDown = firstTouch.clientX;                                      
+    yDown = firstTouch.clientY;                                      
+};                                                
+
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+
+    var xUp = evt.touches[0].clientX;                                    
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+        if ( xDiff > 0 ) {
+            goleft();
+        } else {
+            goright();
+        }                       
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */ 
+        } else { 
+            /* down swipe */
+        }                                                                 
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;                                             
+};
+
+
+//mobile touch end
+
+
 
 
 for(let i=0;i<3;i++)
 {
 
-a.push(new Circle(400+(200*i),90+(150*i),0,2,40));
+a.push(new Circle(400+(200*i),90+(150*i),0,2,40,0.004));
 
 }
+
 
 
 function animate(){
@@ -169,7 +230,10 @@ for(var j=0;j<a.length;j++)
 
 }
 
+function start(){
 animate();
+}
+
 
 
 
